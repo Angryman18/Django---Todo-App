@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+
+{% block form %}
+{% if messages %}
+{% for message in messages %}
+<div class="container" style="width: 50%;">
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+<form method="post" action="{% url 'home' %}" style="width:50%; margin:auto;">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="TodoText">Enter Your Todo Text: </label>
+    <input type="text" autocomplete="off" class="form-control" id="todotext" name="todotext" placeholder="Enter Todo Text Here">
+  </div><br />
+  <button type="submit" class="btn btn-primary">Add to List</button>
+</form>
+{% endblock form %}
+
+{% block table %}
+
+<div class="container" style="width: 75%; margin: auto;">
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 1%;"></th>
+        <th scope="col">Todo Text</th>
+        <th scope="col" style="width: 15%;">Date</th>
+        <th scope="col" style="width: 18%;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <form method="POST" action="">
+      {% for i in data %}
+        <tr>
+          <th scope="row">&#8227</th>
+          <td>{{ i.text }}</td>
+          <td>{{ i.timestamp }}</td>
+          <td>
+            <a href="/delete/{{ i.id }}"><button type="button" id="del" class="btn btn-danger btn-sm">Delete</button></a>
+            <a href="/edit/{{ i.id }}"><button type="button" id="edit" class="btn btn-primary btn-sm">Edit</button></a>
+          </td>
+        </tr>
+      {% endfor %}
+    </form>
+    </tbody>
+  </table>
+
+</div>
+
+{% endblock table %}
